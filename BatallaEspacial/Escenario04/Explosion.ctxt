@@ -1,11 +1,13 @@
 #BlueJ class context
 comment0.target=Explosion
+comment0.text=\n\ Define\ el\ comportamiento\ de\ una\ Explosion\n
 comment1.params=
-comment1.target=void\ act()
-comment2.params=
-comment2.target=void\ animar()
-comment3.params=world\ x\ y
-comment3.target=void\ en(greenfoot.World,\ int,\ int)
-comment4.params=
-comment4.target=void\ actualizarImagen()
-numComments=5
+comment1.target=void\ animar()
+comment1.text=\n\ Ejecuta\ la\ animaci\u00F3n\ completa\n
+comment2.params=mundo\ x\ y
+comment2.target=void\ en(greenfoot.World,\ int,\ int)
+comment2.text=\n\ post\:\ Genera\ una\ explosi\u00F3n\ en\ unas\ coordenadas\ del\ mundo\n\ \n\ @param\ mundo\ es\ el\ mundo\ donde\ aparecer\u00E1\ la\ explosi\u00F3n\n\ @param\ x\ \ \ \ \ la\ coordenada\ x\ de\ la\ explosi\u00F3n\n\ @param\ y\ \ \ \ \ la\ coordenada\ y\ de\ la\ explosi\u00F3n\n
+comment3.params=
+comment3.target=void\ actualizarImagen()
+comment3.text=\n\ Avanza\ un\ fotograma\ en\ la\ animaci\u00F3n\ del\ a\ explosi\u00F3n\n
+numComments=4

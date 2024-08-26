@@ -9,6 +9,14 @@ public class MyGreenfootImage extends GreenfootImage {
     private static final Color SILHOUETTE_COLOR = new Color(30, 30, 30);
     private static final Color SHADOW_COLOR = new Color(30, 30, 30, 100);
 
+    public static final Color[] AURAS = {
+            Color.MAGENTA,
+            Color.CYAN,
+            Color.YELLOW,
+            Color.GREEN,
+            Color.LIGHT_GRAY
+    };
+
     public MyGreenfootImage(GreenfootImage image) throws IllegalArgumentException {
         super(image);
         configurar();
@@ -61,8 +69,8 @@ public class MyGreenfootImage extends GreenfootImage {
         MyGreenfootImage copy = clone();
 
         final int DELTA = 3;
-        
-        for(int i = 0; i < DELTA; i++) {
+
+        for (int i = 0; i < DELTA; i++) {
             MyGreenfootImage x = this.clone();
             drawImage(x, 0, -1);
             drawImage(x, 1, 0);

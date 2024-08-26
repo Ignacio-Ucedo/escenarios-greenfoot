@@ -6,6 +6,7 @@ public class NaveDeAtaque extends NaveAliada implements Atacante {
      * Representa el estado de los motores de la {@link NaveDeAtaque}.
      */
     protected boolean motoresEncendidos = false;
+    protected PilotoBase piloto;
 
     /**
      * Inicializa una nueva NaveDeAtaque con los motores apagados
@@ -191,7 +192,7 @@ public class NaveDeAtaque extends NaveAliada implements Atacante {
     public boolean hayNaveHacia(Direccion direccion) {
         return super.hayNaveHacia(direccion);
     }
-    
+
     /**
      * pre: La NaveDeAtaque {@link #puedeActuar()} <br>
      * post: Obtiene la salud de una NaveDeAtaqueEnemiga o Asteroide, en
@@ -203,12 +204,50 @@ public class NaveDeAtaque extends NaveAliada implements Atacante {
     public int escanearIndicadorHacia(Direccion direccion) {
         int valor = 0;
         if (hayNaveHacia(direccion)) {
-            NaveDeAtaqueEnemiga nave = (NaveDeAtaqueEnemiga) getOneObjectAtOffset(direccion.dx, direccion.dy, NaveDeAtaqueEnemiga.class);
+            NaveDeAtaqueEnemiga nave = (NaveDeAtaqueEnemiga) getOneObjectAtOffset(direccion.dx, direccion.dy,
+                    NaveDeAtaqueEnemiga.class);
             valor = nave.obtenerSalud();
         } else if (hayAsteroideHacia(direccion)) {
             Asteroide asteroide = (Asteroide) getOneObjectAtOffset(direccion.dx, direccion.dy, Asteroide.class);
             valor = asteroide.obtenerTamaño();
         }
-        return valor;        
+        return valor;
+    }
+
+    public void recibirPiloto(PilotoBase piloto) {
+        this.piloto = piloto;
+        actualizarImagen();
+    }
+
+    public void bajarPiloto() {
+        this.piloto = null;
+        actualizarImagen();
+    }
+
+    @Override
+    protected void actualizarImagen() {
+        int tamCelda = getWorld().getCellSize();
+        GreenfootImage image = getImage();
+        image.scale((int) (tamCelda * ESCALA_X), (int) (tamCelda * ESCALA_Y));
+        setImage(image);
+
+        MyGreenfootImage canvas = new MyGreenfootImage(imagenBase.getWidth(),
+                imagenBase.getHeight() + getWorld().getCellSize() / 3);
+
+        canvas.setColor(Color.BLACK);
+        canvas.fillRect(4, imagenBase.getHeight() - 2, getWorld().getCellSize() - 6, 12);
+        canvas.setColor(obtenerColorDeBarraIndicadora());
+
+        canvas.fillRect(6, imagenBase.getHeight(),
+                (int) ((getWorld().getCellSize() - 10) * obtenerProporcionDeBarraIndicadora()), 8);
+
+        canvas.rotate(360 - direccion.rotacion);
+
+        canvas.drawImage(imagenBase, 0, getWorld().getCellSize() / 6);
+        setImage(canvas);
+
+        if (this.piloto != null) {
+            canvas.highlight(this.piloto.getAura());
+        }
     }
 }

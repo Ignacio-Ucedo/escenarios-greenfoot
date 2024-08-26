@@ -1,38 +1,37 @@
 public class Piloto00 extends PilotoBase {
-	NaveDeAtaque navePilotada;
 
-	@Override
-	public void subirse(NaveDeAtaque nave) {
-		super.subirse(nave);
-	}
-	
-	@Override
-	public void bajarse() {
-		super.bajarse();
-	}
+    @Override
+    public void subirse(NaveDeAtaque nave) {
+        super.subirse(nave);
+    }
 
-	void despegar() {
-		navePilotada.encenderMotores();
-	}
+    @Override
+    public void bajarse() {
+        super.bajarse();
+    }
 
-	void avanzarAlNortePor(int casilleros) {
-		for (int pasos = 0; pasos < casilleros; pasos++) {
-			navePilotada.avanzarHacia(Direccion.NORTE);
-		}
-	}
+    void despegar() {
+        navePilotada.encenderMotores();
+    }
 
-	int destruirAsteroideHacia(Direccion direccion) {
-		int ataques = 0;
-		while (navePilotada.hayAsteroideHacia(direccion)) {
-			navePilotada.atacarHacia(direccion);
-			ataques++;
-		}
-		return ataques;
-	}
+    void avanzarAlNortePor(int casilleros) {
+        for (int pasos = 0; pasos < casilleros; pasos++) {
+            navePilotada.avanzarHacia(Direccion.NORTE);
+        }
+    }
 
-	void llegarALaBaseNorte() {
-		avanzarAlNortePor(5);
-		destruirAsteroideHacia(Direccion.NORTE);
-		avanzarAlNortePor(3);
-	}
+    int destruirAsteroideHacia(Direccion direccion) {
+        int ataques = 0;
+        while (navePilotada.hayAsteroideHacia(direccion)) {
+            navePilotada.atacarHacia(direccion);
+            ataques++;
+        }
+        return ataques;
+    }
+
+    void llegarALaBaseNorte() {
+        avanzarAlNortePor(5);
+        destruirAsteroideHacia(Direccion.NORTE);
+        avanzarAlNortePor(3);
+    }
 }

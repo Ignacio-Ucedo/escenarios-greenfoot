@@ -1,0 +1,19 @@
+#BlueJ class context
+comment0.target=AsteroideDeMineral
+comment0.text=\n\ Un\ AsteroideDeMineral\ es\ un\ tipo\ de\ {@link\ Asteroide}\ que\ adem\u00E1s\ de\ funcionar\n\ como\ obst\u00E1culo,\ puede\ ser\ recolectado\ por\ una\ {@link\ NaveRecolectora}\n\ mediante\ {@link\ NaveRecolectora\#recolectarDesde(Direccion)}.\ En\ la\ medida\ en\n\ que\ se\ recolecte\ material,\ el\ AsteroideDeMineral\ se\ reducir\u00E1\ en\ tama\u00F1o\ hasta\n\ desaparecer\ cuando\ sea\ consumido\ completamente.\n
+comment1.params=
+comment1.target=AsteroideDeMineral()
+comment1.text=\n\ Inicializa\ un\ AsteroiodeDeMineral\ con\ tama\u00F1o\ aleatorio\ entre\ 251\ y\ 500\ puntos\n
+comment2.params=tama\u00F1oInicial
+comment2.target=AsteroideDeMineral(int)
+comment2.text=\n\ Inicializa\ un\ AsteroiodeDeMineral\ con\ tama\u00F1o\ arbitrario,\ en\ el\ rango\ de\n\ {@value\ \#TAMA\u00D1O_MINIMO_DE_ASTEROIDE_DE_MINERAL}\ a\n\ {@value\ \#TAMA\u00D1O_MAXIMO_DE_ASTEROIDE_DE_MINERAL}\ puntos\n\ \n\ @param\ tama\u00F1oInicial\n
+comment3.params=
+comment3.target=int\ consultarMineralDisponible()
+comment3.text=\n\ @return\ la\ cantidad\ de\ mineral\ de\ la\ que\ dispone\n
+comment4.params=cantidad
+comment4.target=int\ entregarMineral(int)
+comment4.text=\n\ post\:\ Se\ reducir\u00E1\ el\ tama\u00F1o\ del\ AsteroideDeMineral\ conforme\ la\ cantidad\n\ solicitada,\ siguiendo\ las\ reglas\ de\ existencia\ y\ limitaciones\ del\ turno\n\ \n\ @param\ cantidad\ es\ la\ cantidad\ de\ mineral\ a\ entregar\n\ @return\ la\ cantidad\ que\ pudo\ ser\ extraida,\ limitada\ por\ las\ existencias\ y\ por\n\ \ \ \ \ \ \ \ \ {@link\ \#EXTRACCION_MAXIMA}\n
+comment5.params=
+comment5.target=int\ obtenerTama\u00F1oMaximo()
+comment5.text=\n\ {@link\ AsteroideDeMineral\#tama\u00F1oInicial}\n\ \n\ @return\ el\ tama\u00F1o\ inicial\ del\ AsteroideDeMineral\n
+numComments=6
