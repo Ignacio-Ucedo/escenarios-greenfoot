@@ -35,7 +35,7 @@ public abstract class PilotoBase extends ActorBase {
             bajarse();
         }
         navePilotada = nave;
-        navePilotada.recibirPiloto(this);
+        navePilotada.establecerAura(this.aura);
         actualizarImagen();
     }
 
@@ -43,7 +43,7 @@ public abstract class PilotoBase extends ActorBase {
      * post: El Piloto deja la Nave
      */
     public void bajarse() {
-        navePilotada.bajarPiloto();
+        navePilotada.establecerAura(-1);
         navePilotada = null;
         actualizarImagen();
     }
@@ -73,3 +73,4 @@ public abstract class PilotoBase extends ActorBase {
         setImage(nuevaImagen);
     }
 }
+

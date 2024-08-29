@@ -6,8 +6,9 @@ public class NaveDeAtaque extends NaveAliada implements Atacante {
      * Representa el estado de los motores de la {@link NaveDeAtaque}.
      */
     protected boolean motoresEncendidos = false;
-    protected PilotoBase piloto;
 
+    /*la nave empieza sin aura */
+    protected int aura=-1;
     /**
      * Inicializa una nueva NaveDeAtaque con los motores apagados
      */
@@ -214,15 +215,16 @@ public class NaveDeAtaque extends NaveAliada implements Atacante {
         return valor;
     }
 
-    public void recibirPiloto(PilotoBase piloto) {
-        this.piloto = piloto;
+    /**
+     * Establece el aura de la nave.
+     * 
+     * @param aura El indice del color del aura a aplicar.
+     */
+    public void establecerAura(int aura) {
+        this.aura = aura;
         actualizarImagen();
     }
 
-    public void bajarPiloto() {
-        this.piloto = null;
-        actualizarImagen();
-    }
 
     @Override
     protected void actualizarImagen() {
@@ -244,10 +246,11 @@ public class NaveDeAtaque extends NaveAliada implements Atacante {
         canvas.rotate(360 - direccion.rotacion);
 
         canvas.drawImage(imagenBase, 0, getWorld().getCellSize() / 6);
-        setImage(canvas);
-
-        if (this.piloto != null) {
-            canvas.highlight(this.piloto.getAura());
+        if (aura >= 0){
+            Color color_aura = MyGreenfootImage.AURAS[aura % MyGreenfootImage.AURAS.length];
+            canvas.highlight(color_aura);
         }
+        setImage(canvas);
+        
     }
 }
