@@ -119,6 +119,22 @@ public abstract class NaveBase extends ActorBase implements Dañable {
 		if (hayActorHacia(Asteroide.class, direccion) || hayActorHacia(NaveBase.class, direccion)) {
 			return false;
 		}
+		
+		//si quiere salir del canvas
+		if (isAtEdge()){ //funciona igual sin este if, pero ahorra trabajo a la ejecucion
+			if(direccion == Direccion.NORTE && this.getY() == 0) {
+				return false;
+			} 
+			else if(direccion == Direccion.ESTE &&  this.getX() == (getWorld().getWidth()-1)) {
+				return false;
+			}
+			else if(direccion == Direccion.SUR &&  this.getY() == getWorld().getHeight()-1) {
+				return false;
+			}
+			else if(direccion == Direccion.OESTE && this.getX() == 0) {
+				return false;
+			}
+		}
 
 		move(1);
 		return true;

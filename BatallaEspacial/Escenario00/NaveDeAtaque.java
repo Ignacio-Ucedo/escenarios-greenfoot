@@ -27,6 +27,7 @@ public class NaveDeAtaque extends NaveAliada implements Atacante {
     public NaveDeAtaque(Direccion direccion, int carga) {
         super();
         setDireccion(direccion);
+        this.orientacion = direccion;
         this.combustible = carga;
     }
 
@@ -227,10 +228,6 @@ public class NaveDeAtaque extends NaveAliada implements Atacante {
     }
 
     private void actualizarEstela(Direccion orientacion_previa, int x_previo, int y_previo){
-        if(x_previo == this.getX() &&  y_previo == this.getY()){
-            //intentó ir fuera del canvas
-            return;
-        }
         MyGreenfootImage fragmento_estela = obtenerFragmentoEstela(orientacion_previa, this.orientacion);
         Color color_estela;
         if (aura >=  0){
