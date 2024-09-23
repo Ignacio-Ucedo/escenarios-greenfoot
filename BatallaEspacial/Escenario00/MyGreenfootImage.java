@@ -131,17 +131,4 @@ public class MyGreenfootImage extends GreenfootImage {
         }
     }
 
-    public void applyColor(Color color) {
-        for (int x = 0; x < getWidth(); x++) {
-            for (int y = 0; y < getHeight(); y++) {
-                Color greyColor = getColorAt(x, y);
-                int greyValue = (greyColor.getRed() + greyColor.getGreen() + greyColor.getBlue()) / 3;
-                int red = (color.getRed() * greyValue) / 255;
-                int green = (color.getGreen() * greyValue) / 255;
-                int blue = (color.getBlue() * greyValue) / 255;
-                int alpha = greyColor.getAlpha();
-                setColorAt(x, y, new Color(red, green, blue, alpha));
-            }
-        }
-    }
 }

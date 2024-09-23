@@ -9,7 +9,7 @@ public class NaveDeAtaque extends NaveAliada implements Atacante {
 
     /*la nave empieza sin aura */
     protected int aura=-1;
-    protected Direccion orientacion = Direccion.NORTE;
+    protected Direccion direccion = Direccion.NORTE;
     /**
      * Inicializa una nueva NaveDeAtaque con los motores apagados
      */
@@ -27,7 +27,7 @@ public class NaveDeAtaque extends NaveAliada implements Atacante {
     public NaveDeAtaque(Direccion direccion, int carga) {
         super();
         setDireccion(direccion);
-        this.orientacion = direccion;
+        this.direccion = direccion;
         this.combustible = carga;
     }
 
@@ -114,15 +114,15 @@ public class NaveDeAtaque extends NaveAliada implements Atacante {
      * @see NaveAliada#moverHacia(Direccion)
      */
     public void avanzarHacia(Direccion direccion) {
-        Direccion orientacion_previa = this.orientacion;
+        Direccion direccion_previa = this.direccion;
         int x_previo = this.getX();
         int y_previo = this.getY();
 
         boolean se_movio = super.moverHacia(direccion);
 
         if(se_movio){
-            this.orientacion = direccion;
-            actualizarEstela(orientacion_previa, x_previo, y_previo);
+            this.direccion = direccion;
+            actualizarEstela(direccion_previa, x_previo, y_previo);
         }
     }
 
@@ -227,104 +227,78 @@ public class NaveDeAtaque extends NaveAliada implements Atacante {
         return valor;
     }
 
-    private void actualizarEstela(Direccion orientacion_previa, int x_previo, int y_previo){
-        MyGreenfootImage fragmento_estela = obtenerFragmentoEstela(orientacion_previa, this.orientacion);
+    private void actualizarEstela(Direccion direccion_previa, int x_previo, int y_previo){
+        GreenfootImage fragmento_estela = obtenerFragmentoEstela(direccion_previa, this.direccion);
+        getWorld().getBackground().drawImage(fragmento_estela, x_previo * getWorld().getCellSize(), y_previo * getWorld().getCellSize());
+    }
+
+    private GreenfootImage obtenerFragmentoEstela(Direccion direccion_previa, Direccion direccion_actual) {
+        int tam_celda = getWorld().getCellSize();
+        GreenfootImage fragmento_estela = new GreenfootImage(tam_celda, tam_celda);
+        int grosor_fragmento_estela = tam_celda/20; 
+        if (grosor_fragmento_estela%2 == 1){
+            grosor_fragmento_estela++; 
+        }
+        //coordenada x más pequeña del fragmento estela sin desface
+        int inicio_x_fragmento = tam_celda/2 - grosor_fragmento_estela/2 ;        
         Color color_estela;
+        //la estela es del color del aura de la nave
         if (aura >=  0){
             color_estela = MyGreenfootImage.AURAS[aura % MyGreenfootImage.AURAS.length];
         } else{
             color_estela = MyGreenfootImage.AURAS[0];
         }
-
-        fragmento_estela.applyColor(color_estela);
-        getWorld().getBackground().drawImage(fragmento_estela, x_previo * getWorld().getCellSize(), y_previo * getWorld().getCellSize());
-    }
-
-    private MyGreenfootImage obtenerFragmentoEstela(Direccion orientacion_previa, Direccion orientacion_actual) {
-        int tam_celda = getWorld().getCellSize();
-        GreenfootImage fragmento_estela = new GreenfootImage(tam_celda, tam_celda);
-        int grosor_fragmento_estela = 4; 
-        //coordenada x más pequeña del fragmento estela
-        int inicio_x_fragmento = tam_celda/2 - grosor_fragmento_estela/2;        
-        Color color_base_estela = new Color(255, 255, 255);
         int transparencia_estela = 70;
-        fragmento_estela.setTransparency(transparencia_estela);
+        color_estela = new Color(color_estela.getRed(),color_estela.getGreen(),color_estela.getBlue(), transparencia_estela);
+        fragmento_estela.setColor(color_estela);
         int desface = tam_celda/10;
 
         // recta
-        if (orientacion_previa == orientacion_actual) {
-            for (int j = 0; j < tam_celda; j++) {
-                for (int i = inicio_x_fragmento + desface; i < inicio_x_fragmento + grosor_fragmento_estela + desface; i++) {
-                    fragmento_estela.setColorAt(i, j, color_base_estela);
-                }
+        if (direccion_previa == direccion_actual) {
+            for (int i = inicio_x_fragmento + desface; i < inicio_x_fragmento + desface + grosor_fragmento_estela ; i++) {
+                fragmento_estela.drawLine(i, 0 , i, tam_celda-1);
             }
         // vuelta en u
-        } else if (orientacion_previa == orientacion_actual.opuesta()) {
-            for (int j = 0; j < tam_celda; j++) {
-                if(j==tam_celda/2){
-                    fragmento_estela.rotate(180);
-                }
-                for (int i = inicio_x_fragmento + desface; i < inicio_x_fragmento + grosor_fragmento_estela + desface; i++) {
-                    fragmento_estela.setColorAt(i, j, color_base_estela);
-                }
+        } else if (direccion_previa == direccion_actual.opuesta()) {
+            for (int i = inicio_x_fragmento - desface; i < inicio_x_fragmento - desface + grosor_fragmento_estela; i++) {
+                fragmento_estela.drawLine(i, 0, i, tam_celda/2);
             }
-            for (int i = inicio_x_fragmento-desface; i < inicio_x_fragmento + desface + grosor_fragmento_estela; i++) {
-                for(int j = tam_celda/2; j<tam_celda/2 + grosor_fragmento_estela; j++){
-                    fragmento_estela.setColorAt(i, j, color_base_estela);
-
-                }
+            for (int i = inicio_x_fragmento + desface; i < inicio_x_fragmento + desface + grosor_fragmento_estela; i++) {
+                fragmento_estela.drawLine(i, 0, i, tam_celda/2);
             }
-            fragmento_estela.rotate(180);
+            for (int j = tam_celda/2 + 1; j < tam_celda/2 + grosor_fragmento_estela; j++) {
+                fragmento_estela.drawLine(inicio_x_fragmento - desface, j, inicio_x_fragmento + desface + grosor_fragmento_estela - 1, j);
+            }
 
         // giro
         } else {
-            if (this.direccionADerecha(orientacion_previa) == orientacion_actual) {
+            int rotacion_previa = direccion_previa.rotacion;
+            int rotacion_actual = direccion_actual.rotacion;
+            int desplazamiento_angular = rotacion_actual - rotacion_previa;
+            //giro a su derecha
+            if (desplazamiento_angular == 90 || desplazamiento_angular == -270) {
                 desface = -desface;
             }
-            for (int j = 0; j < tam_celda/2 + desface; j++) {
-                for(int i = inicio_x_fragmento + desface; i< inicio_x_fragmento + desface + grosor_fragmento_estela; i++) {
-                    fragmento_estela.setColorAt(i, j, color_base_estela);
-                }
+            for (int i = inicio_x_fragmento + desface; i < inicio_x_fragmento + desface + grosor_fragmento_estela; i++) {
+                fragmento_estela.drawLine(i, 0, i, (tam_celda/2 -1) + desface + grosor_fragmento_estela/2);
+                fragmento_estela.drawLine(0, i, (tam_celda/2 - 1) + desface - grosor_fragmento_estela/2, i);
             }
-            fragmento_estela.rotate(270);
-            for (int j = tam_celda/2 - desface; j < tam_celda; j++) {
-                for(int i = inicio_x_fragmento + desface; i< inicio_x_fragmento + desface + grosor_fragmento_estela; i++) {
-                    fragmento_estela.setColorAt(i, j, color_base_estela);
-                }
-            }
-
-            if (desface >=0){
+            if(desface < 0 ){
                 fragmento_estela.rotate(90);
-            } else {
-                fragmento_estela.rotate(180);
             }
         }
 
-        if (orientacion_actual == Direccion.ESTE) {
+        if (direccion_actual == Direccion.ESTE) {
             fragmento_estela.rotate(90);
-        } else if (orientacion_actual == Direccion.SUR){
+        } else if (direccion_actual == Direccion.SUR){
             fragmento_estela.rotate(180);
-        } else if ( orientacion_actual == Direccion.OESTE){
+        } else if ( direccion_actual == Direccion.OESTE){
             fragmento_estela.rotate(270);
         }
 
-        MyGreenfootImage mi_fragmento_estela = new MyGreenfootImage(fragmento_estela); 
-        return mi_fragmento_estela;
+        return fragmento_estela;
     }
 
-    private Direccion direccionADerecha(Direccion direccion){
-        if(direccion == Direccion.NORTE){
-            return Direccion.ESTE;
-        } else if (direccion == Direccion.ESTE){
-            return Direccion.SUR;
-        } else if (direccion == Direccion.SUR) {
-            return Direccion.OESTE;
-        } else if (direccion == Direccion.OESTE){
-            return Direccion.NORTE;
-        }
-        
-        throw new IllegalArgumentException("Dirección no válida: " + direccion);
-    }
 
     /*
      * Establece el aura de la nave.
